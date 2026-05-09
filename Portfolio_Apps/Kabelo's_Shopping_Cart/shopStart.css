@@ -1,60 +1,149 @@
-table {
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 20px;
-    box-shadow: 0 2px 8px rgba(192, 142, 5, 0.1);
+    background: #f4f5f7;
+    color: #1a1a2e;
+    min-height: 100vh;
 }
 
-th, td {
-    border: 1px solid #ccc;
+header {
+    background: #fff;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 { font-size: 1.25rem; font-weight: 600; }
+header .subtitle { font-size: 0.8rem; color: #6c757d; margin-top: 2px; }
+
+main { padding: 1.5rem 2rem; max-width: 900px; margin: 0 auto; }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 1.25rem;
+}
+
+.stat-card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+    padding: 1rem 1.25rem;
+}
+
+.stat-label { font-size: 0.75rem; color: #6c757d; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+.stat-value { font-size: 1.4rem; font-weight: 600; color: #1a1a2e; }
+
+.card {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.table-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+
+thead th {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6c757d;
+    padding: 0.65rem 1.25rem;
     text-align: left;
-    padding: 12px 15px;
-    transition: background-color 0.3s ease;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
 }
 
-th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-    color: #333;
+tbody td {
+    padding: 0.8rem 1.25rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f1f3f5;
+    vertical-align: middle;
 }
 
-tr:nth-child(even) {
-    background-color: #086366;
-   
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: #f8f9ff; }
+
+.item-name { font-weight: 500; }
+.price-cell { color: #374151; }
+.row-total { font-weight: 500; color: #1a1a2e; }
+
+.tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
 }
 
-tr:hover {
-    background-color: #12a83f;
+.tag-drink { background: #dbeafe; color: #1d4ed8; }
+.tag-snack { background: #fef3c7; color: #92400e; }
+
+.qty-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    background: #fff;
+    color: #374151;
+    font-size: 1rem;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    line-height: 1;
+}
+
+.qty-btn.plus:hover { background: #f0fdf4; border-color: #86efac; color: #166534; }
+.qty-btn.minus:hover { background: #fef2f2; border-color: #fca5a5; color: #991b1b; }
+
+.qty-num { min-width: 20px; text-align: center; font-weight: 500; font-size: 0.9rem; }
+
+.card-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 #total {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #2c3e50;
-    background-color: #ecf0f1;
-    border: 2px solid #bdc3c7;
-    padding: 12px 20px;
-    margin-top: 15px;
-    width: fit-content;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.btn-checkout {
+    background: #4f46e5;
+    color: #fff;
+    border: none;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 0.5rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
 }
 
-/* table {s
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td,
-th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-} */
+.btn-checkout:hover { background: #4338ca; }

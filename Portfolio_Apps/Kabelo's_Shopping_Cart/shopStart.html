@@ -1,22 +1,57 @@
 <html>
-
 <head>
-    <link rel="stylesheet" type="text/css" media="screen" href="shopStart.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Shop</title>
+    <link rel="stylesheet" href="shopStart.css">
 </head>
+<body>
+    <header>
+        <div>
+            <h1>Campus Shop</h1>
+            <p class="subtitle">Select items to add to your order</p>
+        </div>
+    </header>
 
+    <main>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Items in cart</div>
+                <div class="stat-value" id="stat-items">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Subtotal</div>
+                <div class="stat-value" id="stat-sub">R0.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Order total</div>
+                <div class="stat-value" id="stat-total">R0.00</div>
+            </div>
+        </div>
 
-<body onload="display_all">
-    <p id="demo"></p>
-    <br/><br/>
-    <br/>
-    <!--Added a button and called a checkOut function-->
-<button onclick='checkOut()'>Check Out</button>
-
-
-    <p id="total"></p>
+        <div class="card">
+            <div class="card-header">Menu</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="demo"></tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <div id="total"></div>
+                <button class="btn-checkout" onclick="checkOut()">Check out →</button>
+            </div>
+        </div>
+    </main>
 
     <script src="shopStart.js"></script>
-
 </body>
-
 </html>

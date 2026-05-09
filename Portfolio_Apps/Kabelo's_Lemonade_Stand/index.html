@@ -41,48 +41,54 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset='UTF-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>The Lemonade Stand Game</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' href='styles.css'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lemonade Stand</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
     <header>
-        <h1 style="text-align: center;">🍋🍋🍋🍋 The Lemonade Stand Game ! 🍋🍋🍋🍋</h1>
+        <h1>🍋 The Lemonade Stand</h1>
+        <p>Check the forecast, set your price, and open the stand!</p>
     </header>
 
-    Weather Forecast Display
-    <section id="7DayWeather" style="overflow: auto;"></section>
+    <main>
+        <div class="section-label">7-day forecast</div>
+        <section id="7DayWeather" class="weather-grid"></section>
 
-    Order Form
-    <section id="orderForm">
-        <form>
-            <div class="form-group">
-                <label for="numGlasses">How many glasses of lemonade will you make this week?</label>
-                <input type="number" id="numGlasses" placeholder="Hint: think big!" min="1" required>
+        <div class="card">
+            <div class="section-label">Your plan for the week</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="numGlasses">Glasses to make this week</label>
+                    <input type="number" id="numGlasses" placeholder="e.g. 200" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="glassPrice">Price per glass ($, min $0.50)</label>
+                    <input type="number" id="glassPrice" placeholder="e.g. 1.25" step="0.01" min="0.5">
+                </div>
             </div>
+            <button id="OpenTheStand">Open the stand →</button>
+            <div id="errorMsg" class="error hidden"></div>
+        </div>
 
-            <div class="form-group">
-                <label for="glassPrice">How much will you charge per glass? (min $0.50)</label>
-                <input type="number" id="glassPrice" step="0.01" placeholder="e.g. 1.00" min="0.5" required>
+        <div class="card hidden" id="resultsCard">
+            <div class="section-label">Weekly results</div>
+            <div class="results-grid">
+                <div class="res-stat"><div class="res-label">Glasses sold</div><div class="res-value" id="rSold"></div></div>
+                <div class="res-stat"><div class="res-label">Leftover stock</div><div class="res-value" id="rLeft"></div></div>
+                <div class="res-stat"><div class="res-label">Revenue</div><div class="res-value" id="rRev"></div></div>
+                <div class="res-stat"><div class="res-label">Profit / Loss</div><div class="res-value" id="rProfit"></div></div>
             </div>
+            <div id="dayResults" class="day-results"></div>
+        </div>
+    </main>
 
-            <button type="button" id="OpenTheStand">Open The Stand!</button>
-        </form>
-    </section>
-
-    Results
-    <section id="result"></section>
-
-    <script src='main.js'></script>
+    <script src="main.js"></script>
 </body>
-
 </html>
 
-<!-- ******************************************** Line 40 - 86 ***************************************** -->
+<!-- ******************************************** Line 40 - 92 ***************************************** -->
 

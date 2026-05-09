@@ -1,15 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Weather Forecast !</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='chap17.css'>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7-Day Weather Forecast</title>
+    <link rel="stylesheet" href="chap17.css">
 </head>
 <body>
-    <div id="7DayWeather"></div>
+
+    <header>
+        <div>
+            <h1>☁️ 7-Day Weather Forecast</h1>
+            <p id="subtitle">Loading forecast…</p>
+        </div>
+        <button class="refresh-btn" onclick="generateWeather()">↻ Regenerate</button>
+    </header>
+
+    <main>
+        <div id="7DayWeather" class="weather-grid"></div>
+        <div class="legend">
+            <div class="leg-item"><div class="leg-dot hot"></div>Hot (≥28°C)</div>
+            <div class="leg-item"><div class="leg-dot cold"></div>Cold (&lt;28°C)</div>
+        </div>
+    </main>
+
+    <script src="chap17.js"></script>
 </body>
-<script src='chap17.js'></script>
 </html>

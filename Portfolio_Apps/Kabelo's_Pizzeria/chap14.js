@@ -1,88 +1,62 @@
-// listen for button clicks
+var qty = 1;
+var pizzaType = 'cheese';
+var doughType = 'thick';
+
 document.getElementById("placeOrder").addEventListener("click", placeOrder);
 
-/**
- * gets form values
- * calculates prices
- * produces output
- */
+function changeQty(delta) {
+    qty = Math.max(1, qty + delta);
+    document.getElementById("qtyDisplay").textContent = qty;
+}
+
+function selectPizza(type, el) {
+    pizzaType = type;
+    document.querySelectorAll('.pizza-opt').forEach(function(e) { e.classList.remove('selected'); });
+    el.classList.add('selected');
+}
+
+function selectDough(type, el) {
+    doughType = type;
+    document.querySelectorAll('.dough-opt').forEach(function(e) { e.classList.remove('selected'); });
+    el.classList.add('selected');
+}
 
 function placeOrder() {
-    // get form values
-    var numPizzas = document.getElementById("numPizzas").value;
-    var typePizza = document.getElementById("typePizza").value;
-    var thickness = document.getElementById("thickness").value;
-    var deliveryCity = document.getElementById("deliveryCity").value;
+    var city     = document.getElementById("deliveryCity").value;
     var birthday = document.getElementById("birthday").value;
 
-    // get the pizza price
-    var orderPrice = calculatePrice(numPizzas, typePizza);
-    // get the delivery price
-    var deliveryPrice = calculateDelivery(orderPrice, deliveryCity, birthday);
+    var orderPrice    = calculatePrice(qty, pizzaType);
+    var deliveryPrice = calculateDelivery(orderPrice, city, birthday);
+    var thickPrice    = calculateThickness(doughType);
+    var total         = orderPrice + deliveryPrice + thickPrice;
 
-    var PriceForTheThicknessOfThePizza = calculateThickness(thickness);
+    var pizzaLabel = pizzaType.charAt(0).toUpperCase() + pizzaType.slice(1);
+    var doughLabel = doughType === 'thick' ? 'Thick crust' : 'Thin crust';
 
-    // create the output
-    var theOutput = "<p>Thank you for your order.</p>";
+    var body = '';
+    body += '<div class="receipt-row"><span class="r-label">' + qty + ' × ' + pizzaLabel + ' pizza</span><span class="r-val">$' + orderPrice.toFixed(2) + '</span></div>';
+    body += '<div class="receipt-row"><span class="r-label">' + doughLabel + '</span><span class="r-val">$' + thickPrice.toFixed(2) + '</span></div>';
+    body += '<div class="receipt-row"><span class="r-label">Delivery to ' + city + '</span><span class="r-val">' + (deliveryPrice === 0 ? '<span class="badge-free">Free</span>' : '$' + deliveryPrice.toFixed(2)) + '</span></div>';
 
-    // output the delivery price, if there is one
-    if (deliveryPrice === 0) {
-        theOutput += "<p>You get free delivery!</p>";
-    } else {
-        theOutput += "<p>Your delivery cost is: $" + deliveryPrice;
-    }
-    theOutput += "<p>Your total is: $" + (orderPrice + deliveryPrice + PriceForTheThicknessOfThePizza);
-
-    // display the output
-    document.getElementById("displayTotal").innerHTML = theOutput;
+    document.getElementById('receiptBody').innerHTML = body;
+    document.getElementById('receiptTotal').textContent = '$' + total.toFixed(2);
+    document.getElementById('receipt').classList.remove('hidden');
 }
 
-/**
- * calculates pizza price
- */
 function calculatePrice(numPizzas, typePizza) {
-
-    var orderPrice = Number(numPizzas) * 10;
-    var extraCharge = 0;
-
-    // calculate extraCharge, if there is one
-    if (typePizza === "supreme") {
-        extraCharge = Number(numPizzas) * 2;
-    } else if (typePizza === "cheese"){
-        extraCharge = Number(numPizzas) * 10;
-    } else if (typePizza === "pepperoni"){
-        extraCharge = Number(numPizzas)  * 15;
-    }
-    orderPrice += extraCharge;
-    return orderPrice;
+    var base = numPizzas * 10;
+    var extra = 0;
+    if (typePizza === 'supreme')   extra = numPizzas * 2;
+    if (typePizza === 'cheese')    extra = numPizzas * 10;
+    if (typePizza === 'pepperoni') extra = numPizzas * 15;
+    return base + extra;
 }
-/**
-  * calculates delivery price
- */
-function calculateDelivery(orderPrice, deliveryCity, birthday) {
 
-    var deliveryPrice = 0;
-
-    // calculate delivery price, if there is one
-    if (((deliveryCity === "Anytown") && (orderPrice >
-        10)) || (birthday === "yes")) {
-        deliveryPrice = 0;
-    } else {
-        deliveryPrice = 5;
-    }
-    return deliveryPrice;
+function calculateDelivery(orderPrice, city, birthday) {
+    if (((city === 'Anytown') && (orderPrice > 10)) || (birthday === 'yes')) return 0;
+    return 5;
 }
 
 function calculateThickness(thickness) {
-
-    var thicknessPrice = 0;
-
-    // calculate thicknessPrice, if there needs to be one
-    if (thickness === "thick") {
-        thicknessPrice = 20;
-    } else if ( thickness === "thin") {
-        thicknessPrice = 10; 
-    }
-    return thicknessPrice;
-
+    return thickness === 'thick' ? 20 : 10;
 }

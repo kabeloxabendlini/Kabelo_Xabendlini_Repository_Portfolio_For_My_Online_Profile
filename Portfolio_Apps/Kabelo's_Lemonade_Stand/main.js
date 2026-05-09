@@ -128,116 +128,95 @@
 
 // *************************************** Line 127 - 239 ******************************************//
 
-// Define days of the week
-
-const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-// Weather types
-const weather = ["Sunny", "Partly Sunny", "Partly Cloudy", "Cloudy", "Raining", "Snowing", "Thunderstorm", "Foggy"];
-
-// Temperature range
-const maxTemp = 110;
-const minTemp = 32;
-
-// Cost to make one glass
+const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const weatherTypes = ["Sunny","Partly Sunny","Partly Cloudy","Cloudy","Raining","Snowing","Thunderstorm","Foggy"];
+const weatherIcons = {
+    "Sunny": "☀️", "Partly Sunny": "🌤️", "Partly Cloudy": "⛅",
+    "Cloudy": "☁️", "Raining": "🌧️", "Snowing": "❄️",
+    "Thunderstorm": "⛈️", "Foggy": "🌫️"
+};
 const lemonadeCost = 0.5;
-
-// Array to store daily temperatures
 let dailyTemp = [];
 
-// Generate weather on load
-generateWeather();
-
-// Attach event listener to the button
-document.getElementById("OpenTheStand").addEventListener("click", openTheStand);
-
-/**
- * Generate random weather for each day and render it
- */
 function generateWeather() {
-    const weatherContainer = document.getElementById("7DayWeather");
-    weatherContainer.innerHTML = ""; // Clear if regenerating
+    const grid = document.getElementById("7DayWeather");
+    grid.innerHTML = "";
+    dailyTemp = [];
 
     for (let i = 0; i < days.length; i++) {
-        const currentWeather = weather[Math.floor(Math.random() * weather.length)];
-        const currentTemp = Math.floor(Math.random() * (maxTemp - minTemp) + minTemp);
+        const w = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+        const t = Math.floor(Math.random() * (110 - 32) + 32);
+        dailyTemp.push(t);
 
-        dailyTemp[i] = currentTemp;
-
-        const dayBox = document.createElement("div");
-        dayBox.id = days[i];
-        dayBox.className = currentWeather;
-        dayBox.innerHTML = `
-            <b>Forecast for ${days[i]}:</b><br><br>
-            ${currentWeather} and ${currentTemp}°F
+        const card = document.createElement("div");
+        card.className = "day-card " + w.replace(/\s/g, "-");
+        card.innerHTML = `
+            <div class="day-name">${days[i].slice(0,3)}</div>
+            <div class="weather-icon">${weatherIcons[w]}</div>
+            <div class="weather-type">${w}</div>
+            <div class="temp">${t}°F</div>
         `;
-
-        weatherContainer.appendChild(dayBox);
+        grid.appendChild(card);
     }
 }
 
-/**
- * Calculate lemonade sales based on input and display results
- */
 function openTheStand() {
-    resetForm(); // Clear previous output
+    const errorEl = document.getElementById("errorMsg");
+    errorEl.classList.add("hidden");
 
     const numGlasses = Number(document.getElementById("numGlasses").value);
     const glassPrice = Number(document.getElementById("glassPrice").value);
-    const resultDiv = document.getElementById("result");
 
-    if (numGlasses <= 0 || glassPrice < 0.5) {
-        resultDiv.innerHTML = "<p>Please enter valid input values!</p>";
+    if (!numGlasses || numGlasses < 1 || !glassPrice || glassPrice < 0.5) {
+        errorEl.textContent = "Please enter a valid number of glasses (≥1) and price (≥$0.50).";
+        errorEl.classList.remove("hidden");
         return;
     }
 
-    let totalGlasses = 0;
+    let totalSold = 0;
+    const dailySales = [];
 
     for (let i = 0; i < days.length; i++) {
-        let currentPrice = glassPrice;
+        let price = glassPrice;
+        if (days[i] === "Sunday") price = Math.max(0.01, glassPrice - 1);
 
-        // Sunday discount
-        if (days[i] === "Sunday") {
-            currentPrice = Math.max(0.01, glassPrice - 1);
-        }
+        let sold = Math.floor(dailyTemp[i] / price);
+        const left = numGlasses - totalSold;
+        if (sold > left) sold = left;
 
-        let glassesSold = Math.floor(dailyTemp[i] / currentPrice);
-        const glassesLeft = numGlasses - totalGlasses;
-
-        if (glassesSold > glassesLeft) {
-            glassesSold = glassesLeft;
-        }
-
-        totalGlasses += glassesSold;
-
-        resultDiv.innerHTML += `<p><strong>${days[i]}</strong>: Sold ${glassesSold} glasses.</p>`;
+        totalSold += sold;
+        dailySales.push(sold);
     }
 
-    displayResults(numGlasses, glassPrice, totalGlasses);
+    const revenue = totalSold * glassPrice;
+    const expense = numGlasses * lemonadeCost;
+    const profit  = revenue - expense;
+    const leftover = numGlasses - totalSold;
+    const maxSold = Math.max(...dailySales, 1);
+
+    document.getElementById("rSold").textContent = totalSold;
+    document.getElementById("rLeft").textContent = leftover;
+    document.getElementById("rRev").textContent  = "$" + revenue.toFixed(2);
+
+    const rp = document.getElementById("rProfit");
+    rp.textContent = (profit >= 0 ? "+ " : "− ") + "$" + Math.abs(profit).toFixed(2);
+    rp.className = "res-value " + (profit >= 0 ? "profit" : "loss");
+
+    let rows = "";
+    for (let i = 0; i < days.length; i++) {
+        const pct = Math.round((dailySales[i] / maxSold) * 100);
+        const isSunday = days[i] === "Sunday";
+        rows += `
+            <div class="day-row">
+                <span class="d-name">${days[i]}${isSunday ? '<span class="badge-sunday">-$1</span>' : ''}</span>
+                <div class="d-bar-wrap"><div class="d-bar" style="width:${pct}%"></div></div>
+                <span class="d-sold">${dailySales[i]} glasses</span>
+            </div>`;
+    }
+
+    document.getElementById("dayResults").innerHTML = rows;
+    document.getElementById("resultsCard").classList.remove("hidden");
 }
 
-/**
- * Display weekly summary
- */
-function displayResults(weeklyInventory, glassPrice, weeklySales) {
-    const revenue = weeklySales * glassPrice;
-    const expense = weeklyInventory * lemonadeCost;
-    const profit = revenue - expense;
-    const leftOver = weeklyInventory - weeklySales;
-
-    const resultDiv = document.getElementById("result");
-    resultDiv.innerHTML += `<hr>`;
-    resultDiv.innerHTML += `<p><strong>Total sold:</strong> ${weeklySales} glasses</p>`;
-    resultDiv.innerHTML += `<p><strong>Total revenue:</strong> $${revenue.toFixed(2)}</p>`;
-    resultDiv.innerHTML += `<p><strong>Leftover stock:</strong> ${leftOver} glasses</p>`;
-    resultDiv.innerHTML += `<p><strong>Profit:</strong> $${profit.toFixed(2)}</p>`;
-}
-
-/**
- * Clear the result section before new run
- */
-function resetForm() {
-    document.getElementById("result").innerHTML = "";
-}
-
-// // *************************************** Line 127 - 239 ******************************************//
+document.getElementById("OpenTheStand").addEventListener("click", openTheStand);
+generateWeather();

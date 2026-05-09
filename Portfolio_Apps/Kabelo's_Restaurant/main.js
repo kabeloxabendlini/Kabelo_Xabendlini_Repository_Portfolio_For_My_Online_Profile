@@ -1,78 +1,78 @@
-// Global variables
-let money = 40;
-let lunches = 0;
-let totalPriceSpent = 0;
+let qty = 1;
 
-// Cache DOM elements
-const moneyDisplay = document.getElementById("money");
-const receipt = document.getElementById("receipt");
-const orderButton = document.getElementById("placeOrder");
-const numSandwichesInput = document.getElementById("numSandwiches");
+const qtyDisplay = document.getElementById("qtyDisplay");
+const moneyLeft  = document.getElementById("moneyLeft");
+const lunchCount = document.getElementById("lunchCount");
+const receiptCard = document.getElementById("receiptCard");
+const timeline   = document.getElementById("timeline");
+const summary    = document.getElementById("summary");
 
-// Display initial money
-moneyDisplay.innerHTML = money;
+document.getElementById("qtyUp").addEventListener("click", function() {
+    qty++;
+    qtyDisplay.textContent = qty;
+});
 
-// Event listener for placing orders
-orderButton.addEventListener("click", buyLunches);
+document.getElementById("qtyDown").addEventListener("click", function() {
+    if (qty > 1) { qty--; qtyDisplay.textContent = qty; }
+});
 
-// Handle buying lunches
-function buyLunches() {
-    resetForm();
-    let day = 0;
+document.getElementById("placeOrder").addEventListener("click", buyLunches);
 
-    const numberOfSandwiches = parseInt(numSandwichesInput.value);
-    if (isNaN(numberOfSandwiches) || numberOfSandwiches <= 0) {
-        alert("Please enter a valid number of sandwiches.");
-        return;
-    }
-
-    while (money > 0) {
-        day++;
-        const priceToday = getSandwichPrice();
-        const totalPrice = priceToday * numberOfSandwiches;
-
-        if (money >= totalPrice) {
-            money -= totalPrice;
-            lunches += numberOfSandwiches;
-            totalPriceSpent += totalPrice;
-
-            receipt.innerHTML += `<p>On day ${day}, sandwiches are: $${priceToday}. You have $${money.toFixed(2)} left.</p>`;
-        } else {
-            receipt.innerHTML += `<p>Today, sandwiches are: $${priceToday}. You don't have enough money. Maybe your sister will give you some of her sandwich.</p>`;
-            break;
-        }
-    }
-
-    const avgPrice = (totalPriceSpent / lunches).toFixed(2);
-    receipt.innerHTML += `<p>You bought ${lunches} lunches this week.</p>`;
-    receipt.innerHTML += `<p>Average sandwich price: $${avgPrice}</p>`;
-}
-
-// Generate random sandwich price between $0.00 and $1.00
 function getSandwichPrice() {
     return parseFloat((Math.random() * 1).toFixed(2));
 }
 
-// Reset values and UI
-function resetForm() {
-    money = 40;
-    lunches = 0;
-    totalPriceSpent = 0;
-    receipt.innerHTML = "";
-    moneyDisplay.innerHTML = money;
-}
+function buyLunches() {
+    let money = 40, lunches = 0, totalSpent = 0, day = 0;
+    let rows = "", ranOut = false;
 
-// Password prompt function
-function requestPassword() {
-    let password;
-    while (password !== "Kabelo") {
-        const userInput = prompt("Password please?");
-        if (userInput === "Kabelo") {
-            password = "Kabelo";
+    while (money > 0) {
+        day++;
+        const price = getSandwichPrice();
+        const total = parseFloat((price * qty).toFixed(2));
+
+        if (money >= total) {
+            money      = parseFloat((money - total).toFixed(2));
+            lunches   += qty;
+            totalSpent = parseFloat((totalSpent + total).toFixed(2));
+            const pct  = Math.round((money / 40) * 100);
+
+            rows += `
+                <div class="day-row">
+                    <div class="day-dot dot-ok">${day}</div>
+                    <div class="day-text">
+                        <span class="price">Day ${day}: $${price.toFixed(2)}/sandwich</span> — bought ${qty}<br>
+                        <span class="balance">
+                            $${money.toFixed(2)} remaining
+                            <div class="money-bar-wrap"><div class="money-bar" style="width:${pct}%"></div></div>
+                        </span>
+                    </div>
+                </div>`;
+        } else {
+            rows += `
+                <div class="day-row">
+                    <div class="day-dot dot-no">${day}</div>
+                    <div class="day-text">
+                        <span class="price">Day ${day}: $${price.toFixed(2)}/sandwich</span><br>
+                        <span class="balance empty">Not enough money ($${money.toFixed(2)} left) — maybe your sister will share 🥪</span>
+                    </div>
+                </div>`;
+            ranOut = true;
+            break;
         }
     }
-    alert("Welcome.");
-}
 
-// Prompt for password on page load
-requestPassword();
+    const avg = lunches > 0 ? (totalSpent / lunches).toFixed(2) : "—";
+    const remaining = ranOut ? money.toFixed(2) : "0.00";
+
+    summary.innerHTML = `
+        <div class="sum-row"><span class="s-label">Total lunches bought</span><span class="s-val">${lunches}</span></div>
+        <div class="sum-row"><span class="s-label">Total spent</span><span class="s-val">$${totalSpent.toFixed(2)}</span></div>
+        <div class="sum-row"><span class="s-label">Money remaining</span><span class="s-val">$${remaining}</span></div>
+        <div class="sum-row"><span class="s-label">Average price per sandwich</span><span class="s-val">$${avg}</span></div>`;
+
+    timeline.innerHTML = rows;
+    moneyLeft.textContent = `$${remaining}`;
+    lunchCount.textContent = lunches;
+    receiptCard.classList.remove("hidden");
+}

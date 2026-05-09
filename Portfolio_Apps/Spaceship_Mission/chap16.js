@@ -1,98 +1,98 @@
-// declare variables
-var story = document.getElementById("story");
-var siteFooter = document.getElementById("siteFooter");
-var question = document.getElementById("question");
-var answer = document.getElementById("answer");
-var yourAnswer = document.getElementById("yourAnswer");
-var submit = document.getElementById("submit");
-var answers = [];
+var storyEl   = document.getElementById("story");
+var questionEl = document.getElementById("question");
+var optionsEl  = document.getElementById("options");
+var errEl      = document.getElementById("errorMsg");
+var progEl     = document.getElementById("prog");
+var footerEl   = document.getElementById("siteFooter");
 
-/* listen for clicks on the submit button and call the getAnswer() function when they happen. */
-submit.addEventListener("click", getAnswer);
-
-// call the function to ask the first question.
-askQuestion(0);
-
-/* askQuestion() asks a question, based on the number passed to it. */
-function askQuestion(questionNumber) {
-    answer.style.display = "block";
-
-    answers.length = questionNumber;
-
-    switch (questionNumber) {
-        case 0:
-            question.innerHTML = "Are you ready to play?";
-            break;
-        case 1:
-            question.innerHTML = "Go to Mars, or stay home?";
-            break;
-        case 2:
-            question.innerHTML = "Risk it, or go home.";
-            break;
-        default:
-            break;
+// Step definitions — each has a question, button labels, progress %, and a handler
+var steps = [
+    {
+        q: "Are you ready to begin your mission?",
+        opts: ["Yes, let's go!", "No"],
+        prog: 10,
+        handle: function(v) {
+            if (v === "YES, LET'S GO!" || v === "YES") {
+                showStory("answer01", 1); return true;
+            }
+            if (v === "NO") {
+                showStory("answer02", 0); return true;
+            }
+            return false;
+        },
+        errMsg: "Please answer Yes or No."
+    },
+    {
+        q: "Go to Mars, or stay home?",
+        opts: ["Go to Mars", "Stay Home"],
+        prog: 40,
+        handle: function(v) {
+            if (v === "GO TO MARS") { showStory("answer11", 2); return true; }
+            if (v === "STAY HOME")  { showStory("answer12", null); return true; }
+            return false;
+        },
+        errMsg: "Please choose 'Go to Mars' or 'Stay Home'."
+    },
+    {
+        q: "Risk it, or go home?",
+        opts: ["Risk It", "Go Home"],
+        prog: 70,
+        handle: function(v) {
+            if (v === "RISK IT")  { showStory("answer21", null); return true; }
+            if (v === "GO HOME")  { showStory("answer22", null); return true; }
+            return false;
+        },
+        errMsg: "Please choose 'Risk It' or 'Go Home'."
     }
+];
 
+var currentStep = 0;
+
+function renderStep(i) {
+    currentStep = i;
+    var s = steps[i];
+    questionEl.textContent = s.q;
+    progEl.style.width = s.prog + "%";
+    errEl.classList.add("hidden");
+    optionsEl.innerHTML = "";
+
+    s.opts.forEach(function(label) {
+        var btn = document.createElement("button");
+        btn.className = "opt-btn";
+        btn.textContent = label;
+        btn.addEventListener("click", function() {
+            handleChoice(label.toUpperCase());
+        });
+        optionsEl.appendChild(btn);
+    });
 }
 
-/* getAnswer() gets the answer from the text field and pushes it into the answers array, then calls the continueStory function */
-function getAnswer() {
-    cleanInput = yourAnswer.value.toUpperCase();
-    answers.push(cleanInput);
-    yourAnswer.value = "";
-    continueStory(answers.length - 1);
-}
-
-/* continueStory() displays part of the story or an error based on the value of an item in the answers array. */
-function continueStory(answerNumber) {
-    switch (answerNumber) {
-        case 0:
-            if (answers[0] === "You are on the right path. Well Done!") {
-                story.innerHTML = document.getElementById("answer01").innerHTML;
-                askQuestion(1);
-            } else if (answers[0] === "You are not on par. Keep trying!") {
-                story.innerHTML = document.getElementById("answer02").innerHTML;
-                askQuestion(0);
-            } else {
-                story.innerHTML = document.getElementById("The input you put in is not comprehensive.err0!").innerHTML;
-                askQuestion(0);
-            }
-            break;
-        case 1:
-            if (answers[1] === "GO TO MARS") {
-                story.innerHTML = document.getElementById("answer11").innerHTML;
-                askQuestion(2);
-            } else if (answers[1] === "STAY HOME") {
-                story.innerHTML = document.getElementById("answer12").innerHTML;
-                theEnd();
-            } else {
-                story.innerHTML = document.getElementById("err1").innerHTML;
-                askQuestion(1);
-            }
-            break;
-        case 2:
-            if (answers[2] === "RISK IT") {
-                story.innerHTML = document.getElementById("answer21").innerHTML;
-                theEnd();
-            } else if (answers[2] === "GO HOME") {
-                story.innerHTML = document.getElementById("answer22").innerHTML;
-                theEnd();
-            } else {
-                story.innerHTML = document.getElementById("err2").innerHTML;
-                askQuestion(2);
-
-            }
-            break;
-        default:
-            story.innerHTML = "The story is over!";
-
-            break;
+function handleChoice(val) {
+    var s = steps[currentStep];
+    var ok = s.handle(val);
+    if (!ok) {
+        errEl.textContent = s.errMsg;
+        errEl.classList.remove("hidden");
     }
 }
 
-/* theEnd() ends the story and hides the input field */
+function showStory(partId, nextStep) {
+    var part = document.getElementById(partId);
+    storyEl.innerHTML = part ? part.innerHTML : "";
+    storyEl.scrollTop = 0;
+
+    if (nextStep === null) {
+        theEnd();
+    } else {
+        renderStep(nextStep);
+    }
+}
+
 function theEnd() {
-    story.innerHTML += "<p>The End.</p>";
-    question.innerHTML = "";
-    answer.style.display = "none";
+    progEl.style.width = "100%";
+    storyEl.innerHTML += "<div class='the-end'><div class='rocket'>🚀</div><div class='end-title'>The End</div><div class='end-sub'>Thanks for playing, Captain!</div></div>";
+    footerEl.classList.add("hidden");
 }
+
+// Start
+renderStep(0);

@@ -1,75 +1,81 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Kabelo's Adventure: The Great Mission Of The Space Ranger !</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='chap16.css'>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabelo's Adventure: The Great Mission Of The Space Ranger</title>
+    <link rel="stylesheet" href="chap16.css">
 </head>
-
 <body>
-    <div id="story"></div>
+
+    <header>
+        <div>
+            <h1>🚀 Kabelo's Space Ranger Adventure</h1>
+            <p>An interactive story — your choices shape the mission</p>
+        </div>
+    </header>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="prog" style="width:0%"></div>
+    </div>
+
+    <div id="story">
+        <p class="intro-hint">Press "Ready!" to begin your mission, Captain.</p>
+    </div>
+
     <div id="siteFooter">
         <div id="question"></div>
-        <div id="answer">Enter your answer:
-            <input type="text" id="yourAnswer" />
-            <button type="button" id="submit">Go!</button>
-        </div>
+        <div id="options"></div>
+        <div id="errorMsg" class="error-msg hidden"></div>
     </div>
-    <!-- everything under here is hidden using CSS so that we can display it later using JavaScript -->
+
+    <!-- Hidden story parts -->
     <div class="storyPart" id="answer01">
-        <p>You are the captain of a spaceship named "The Flying Hippo." One day, you're working on tuning up your ship's engines when you get an urgent message on your space phone:</p>
-        <p>"Captain, one of our Mars robots is sick. We need you to go to Mars immediately and retrieve it so that we can fix it and download the results of its important experiments."</p>
-        <p>You remember that you're supposed to go to a meeting of the Space Scouts tonight, and you were really looking forward to it. But, on the other hand, the other Space Scouts would understand that this mission is very important.</p>
-        <p>What do you do? Go to Mars, or stay home?</p>
-        <p>Mars, the "Red Planet," isn't just a distant world; it's a planet with a rich history, a captivating story, and a potential future intertwined with our own.</p>
-        <p>Its reddish hue, due to iron oxide (rust) on its surface, has captivated civilizations for millennia, leading to myths and legends that blend scientific inquiry with the human imagination.</p>
+        <div class="chapter-badge">Chapter 1 — The Call</div>
+        <p>You are the captain of a spaceship named <strong>"The Flying Hippo."</strong> One day, you're tuning up your ship's engines when you get an urgent message on your space phone:</p>
+        <p><em>"Captain, one of our Mars robots is sick. We need you to go to Mars immediately and retrieve it so that we can fix it and download the results of its important experiments."</em></p>
+        <p>You remember that you're supposed to go to a meeting of the Space Scouts tonight, and you were really looking forward to it. But the other Space Scouts would understand — this mission is critical.</p>
+        <p>Mars, the "Red Planet," its reddish hue due to iron oxide (rust) on its surface, has captivated civilizations for millennia.</p>
+        <p><strong>What do you do?</strong></p>
     </div>
     <div class="storyPart" id="answer02">
-        <p>Answer Yes when you're ready!</p>
+        <p>No problem! Come back when you're ready, Captain.</p>
     </div>
-    <div class="storyPart" id="err0">
-        <p>Please answer yes or no.</p>
-    </div>
+    <div class="storyPart" id="err0"><p>Please answer Yes or No.</p></div>
     <div class="storyPart" id="answer11">
-        <p>Great choice! Mars is lovely this time of year (or, during the time of the year when you'll arrive, about 260 days from now!).</p>
-        <p>You pack up your things and prepare enough food for the journey, then take off!</p>
-        <p>Launch goes smoothly and you sit back, put on your headphones, and prepare for a relaxing trip.</p>
-        <p>A week later, things are going great. There's nothing for you to do except read, listen to music, and watch movies. Just then, you hear a strange sound.</p>
-        <p>"meow."</p>
+        <div class="chapter-badge">Chapter 2 — A Stowaway</div>
+        <p>Great choice! Mars is lovely this time of year — about 260 days from now!</p>
+        <p>You pack your things and take off. Launch goes smoothly and you sit back, put on your headphones, and prepare for a relaxing trip.</p>
+        <p>A week later, things are going great. Just then, you hear a strange sound.</p>
+        <p><em>"meow."</em></p>
         <p>It sounds like Gizmo, your cat! She must have snuck aboard while you were packing!</p>
-        <p>You're happy to have the company, but you didn't pack enough food for the both of you, and there certainly isn't a grocery store on the way to Mars.</p>
-        <p>You have a choice: risk running out of food on the return trip, or turn around now and go home. What will you do?</p>
-        <p>Mars, the "Red Planet," isn't just a distant world; it's a planet with a rich history, a captivating story, and a potential future intertwined with our own.</p>
-        <p>Its reddish hue, due to iron oxide (rust) on its surface, has captivated civilizations for millennia, leading to myths and legends that blend scientific inquiry with the human imagination.</p>
+        <p>You're happy to have the company, but you didn't pack enough food for you both, and there certainly isn't a grocery store on the way to Mars.</p>
+        <p><strong>Risk running out of food on the return trip, or turn around now?</strong></p>
     </div>
     <div class="storyPart" id="answer12">
-        <p>You decide to stay home. They'll get someone else to fly to Mars. Besides, you heard that they're going to have free pizza at the Space Scouts meeting!</p>
+        <div class="chapter-badge">The End</div>
+        <p>You decide to stay home. They'll get someone else to fly to Mars.</p>
+        <p>Besides, you heard there's going to be free pizza at the Space Scouts meeting! 🍕</p>
     </div>
-    <div class="storyPart" id="err1">
-        <p>Please answer Mars or Earth.</p>
-    </div>
+    <div class="storyPart" id="err1"><p>Please answer "Go to Mars" or "Stay Home".</p></div>
     <div class="storyPart" id="answer21">
-        <p>You decide to risk it. The journey is long, and you give sweet Gizmo half your food, knowing that you may not survive the return trip, but the Flying Hippo can carry the robot home without you, and at least the important experimental data (and
-            Gizmo, of course) will be safe.</p>
-        <p>When you arrive at Mars, you quickly locate the sick robot. But, you also discover something else: a large ice chest full of delicious sandwiches! The last repair crew to visit the robot must have left this here! You unwrap one of the sandwiches
-            and carefully take a bite. Peanut butter! Your favorite! Gizmo's favorite too!</p>
-        <p>You pack up the sandwiches and the sick robot and begin the trip home, knowing that there's now more than enough food for both you and Gizmo.</p>
+        <div class="chapter-badge">Chapter 3 — A Discovery</div>
+        <p>You decide to risk it. The journey is long, and you give sweet Gizmo half your food, knowing you may not survive the return trip — but the Flying Hippo can carry the robot home without you, and at least the important data (and Gizmo) will be safe.</p>
+        <p>When you arrive at Mars, you quickly locate the sick robot. But you also discover something else: <strong>a large ice chest full of delicious sandwiches!</strong> The last repair crew must have left them here!</p>
+        <p>You carefully unwrap one. Peanut butter! Your favourite! Gizmo's favourite too! 🥜</p>
+        <p>You pack up the sandwiches and the sick robot and begin the trip home, knowing there's now more than enough food for both of you.</p>
+        <p><em>Mission accomplished, Captain.</em></p>
     </div>
     <div class="storyPart" id="answer22">
-        <p>Let someone else get the robot. You turn the Flying Hippo around and head home.</p>
-        <p>When you get back to the spaceport, you open the door to exit your spaceship and your boss is standing outside.</p>
-        <p>You apologize and explain the whole thing to him about how there wouldn't have been enough food.</p>
-        <p>Steam comes out of your boss's mechanical head as he tells you that there are always plenty of sandwiches on Mars, and that you would have been just fine if you had completed your mission. He fires you. You pick up Gizmo and start walking home.</p>
-        <p>Oh well, at least you still have Gizmo!</p>
+        <div class="chapter-badge">The End</div>
+        <p>You turn the Flying Hippo around and head home.</p>
+        <p>When you arrive at the spaceport, your boss is standing outside.</p>
+        <p>Steam comes out of his mechanical head as he tells you there are always plenty of sandwiches on Mars — you would have been fine if you had completed your mission.</p>
+        <p><strong>He fires you.</strong> You pick up Gizmo and start walking home.</p>
+        <p>Oh well — at least you still have Gizmo. 🐱</p>
     </div>
-    <div class="storyPart" id="err2">
-        <p>Please answer Risk It or Go Home.</p>
-    </div>
-    <script src='chap16.js'></script>
-</body>
+    <div class="storyPart" id="err2"><p>Please answer "Risk It" or "Go Home".</p></div>
 
+    <script src="chap16.js"></script>
+</body>
 </html>

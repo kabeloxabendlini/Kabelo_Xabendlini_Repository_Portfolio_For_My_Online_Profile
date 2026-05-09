@@ -2,25 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunch Order Simulator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <div id="instructions">
-        <h2>Lunch Money Order</h2>
-        <p>You start with $<span id="money">40</span>. Sandwich prices change daily. How many sandwiches would you like to buy per day?</p>
-    </div>
+    <header>
+        <h1>🥪 Lunch Money Simulator</h1>
+        <p>You start with $40 — see how many sandwiches you can afford!</p>
+    </header>
 
-    <div id="orderForm">
-        <label for="numSandwiches">Number of sandwiches per day:</label>
-        <input type="number" id="numSandwiches" value="1" min="1" />
-        <button id="placeOrder">Place Order</button>
-    </div>
+    <main>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Starting budget</div>
+                <div class="stat-value">$40.00</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Money left</div>
+                <div class="stat-value green" id="moneyLeft">$40.00</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Lunches bought</div>
+                <div class="stat-value" id="lunchCount">—</div>
+            </div>
+        </div>
 
-    <div id="receipt">
-        <!-- Order results will appear here -->
-    </div>
+        <div class="card">
+            <div class="card-label">Your order</div>
+            <label for="numSandwiches">Sandwiches per day</label>
+            <div class="qty-row">
+                <button class="qty-btn" id="qtyDown">−</button>
+                <span class="qty-num" id="qtyDisplay">1</span>
+                <button class="qty-btn" id="qtyUp">+</button>
+            </div>
+            <button class="btn-order" id="placeOrder">Simulate week →</button>
+        </div>
+
+        <div class="card hidden" id="receiptCard">
+            <div class="card-label">Daily breakdown</div>
+            <div class="timeline" id="timeline"></div>
+            <div class="summary" id="summary"></div>
+        </div>
+    </main>
 
     <script src="main.js"></script>
 </body>

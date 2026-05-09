@@ -1,64 +1,97 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Pizzeria Of Kabelo Xabendlini: Use Conditional Statements</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabelo's Pizzeria</title>
     <link rel="stylesheet" href="chap14.css">
-
 </head>
-
 <body>
-    <h1>Kabelo Xabendlini's JavaScript Pizzeria.</h1>
-    <div id="orderForm">
-        <label>How many pizzas do you want?
-            <input type="number" id="numPizzas" />
-        </label>
-        <br />
-        <br />
-        <label>What kind of pizzas?
-            <select id="typePizza">
-                <option value="cheese">Cheese</option>
-                <option value="pepperoni">Pepperoni</option> 
-                
-            </select>
-        </label>
-        <br />
-        <br />
-        <label>Where do you live?
-            <select id="deliveryCity">
-                <option value="Anytown">Anytown</option>
-                <option value="Sacramento">Sacramento</option>
-                <option value="Beverly Hills">Beverly Hills</option>
-            </select>
-        </label>
-        <br />
-        <br />
-        <label>Is it your birthday?
-            <select id="birthday">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
-        </label>
-        <br />
-        <br />
-        <label>What type of dough do you really want?
-            <select id="thickness">
-                <option value="thick">Thick</option>
-                <option value="thin">Thin</option>
-            </select>
-        </label>
-        <br />
-        <br />
-        <button type="button" id="placeOrder">Place
-            Order</button>
-    </div>
-    <div id="displayTotal"></div>
 
-    <script src='chap14.js'></script>
-    <!-- <script src='listings.js'></script> -->
+    <header>
+        <h1>🍕 Kabelo's Pizzeria</h1>
+        <p>Fresh dough, great toppings, delivered to your door</p>
+    </header>
+
+    <main>
+        <div class="card">
+            <div class="card-title">Choose your pizza</div>
+            <div class="pizza-options">
+                <div class="pizza-opt selected" onclick="selectPizza('cheese', this)">
+                    <div class="p-icon">🧀</div>
+                    <div class="p-name">Cheese</div>
+                    <div class="p-price">+$10/pizza</div>
+                </div>
+                <div class="pizza-opt" onclick="selectPizza('pepperoni', this)">
+                    <div class="p-icon">🍖</div>
+                    <div class="p-name">Pepperoni</div>
+                    <div class="p-price">+$15/pizza</div>
+                </div>
+                <div class="pizza-opt" onclick="selectPizza('supreme', this)">
+                    <div class="p-icon">🌶️</div>
+                    <div class="p-name">Supreme</div>
+                    <div class="p-price">+$2/pizza</div>
+                </div>
+            </div>
+
+            <div class="card-title">Quantity</div>
+            <div class="qty-cell">
+                <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                <span class="qty-num" id="qtyDisplay">1</span>
+                <button class="qty-btn" onclick="changeQty(1)">+</button>
+            </div>
+
+            <div class="card-title" style="margin-top: 1rem;">Dough style</div>
+            <div class="dough-options">
+                <div class="dough-opt selected" onclick="selectDough('thick', this)">
+                    <div class="d-icon">🍞</div>
+                    <div class="d-info">
+                        <div class="d-name">Thick crust</div>
+                        <div class="d-price">+$20</div>
+                    </div>
+                </div>
+                <div class="dough-opt" onclick="selectDough('thin', this)">
+                    <div class="d-icon">🫓</div>
+                    <div class="d-info">
+                        <div class="d-name">Thin crust</div>
+                        <div class="d-price">+$10</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Delivery details</div>
+            <div class="grid2">
+                <div class="field">
+                    <label for="deliveryCity">Delivery city</label>
+                    <select id="deliveryCity">
+                        <option value="Anytown">Anytown</option>
+                        <option value="Sacramento">Sacramento</option>
+                        <option value="Beverly Hills">Beverly Hills</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="birthday">Is it your birthday? 🎂</label>
+                    <select id="birthday">
+                        <option value="no">No</option>
+                        <option value="yes">Yes — free delivery!</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn-order" id="placeOrder">Place order →</button>
+        </div>
+
+        <div class="receipt hidden" id="receipt">
+            <div class="receipt-header"><h2>Your order receipt</h2></div>
+            <div class="receipt-body" id="receiptBody"></div>
+            <div class="receipt-total">
+                <span class="t-label">Total</span>
+                <span class="t-val" id="receiptTotal"></span>
+            </div>
+        </div>
+    </main>
+
+    <script src="chap14.js"></script>
 </body>
-
 </html>

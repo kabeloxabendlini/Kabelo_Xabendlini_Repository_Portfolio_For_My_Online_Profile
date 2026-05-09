@@ -1,72 +1,61 @@
-var nums = [1, 2, 3, 4];
 var items = ["Coke", "Kit Kat", "Bar One", "Fanta"];
 var prices = [7.5, 9.5, 8.5, 7.5];
+var categories = ["Drink", "Snack", "Snack", "Drink"];
 var quantities = [0, 0, 0, 0];
-var totals = [0.0, 0.0, 0.0, 0.0];
-var totalOrderAmt = 0;
 
-function add_selection(x){ 
-    console.log(x);
-    quantities[x] = quantities[x] + 1;
-    totals[x] = prices[x] * quantities[x];
-    totalOrderAmt += prices[x];
+function fmt(n) {
+    return 'R' + n.toFixed(2);
+}
 
+function add_selection(x) {
+    quantities[x]++;
     display_all();
 }
-// Added a remove selection function;
+
 function remove_selection(x) {
-    console.log(x);
-    if(quantities[x]>0){
-        quantities[x] = quantities[x] - 1;
-        totals[x] = prices[x] * quantities[x];
-        totalOrderAmt -= prices[x];
-    
-}
-
-//Added a remove selection function;
+    if (quantities[x] > 0) {
+        quantities[x]--;
+    }
     display_all();
 }
- 
 
 function display_all() {
+    var totalItems = 0, totalAmt = 0;
+    var rows = '';
 
+    for (var i = 0; i < items.length; i++) {
+        var rowTotal = prices[i] * quantities[i];
+        totalItems += quantities[i];
+        totalAmt += rowTotal;
 
+        var tagClass = categories[i] === 'Drink' ? 'tag-drink' : 'tag-snack';
 
-    var myTable = "<table><th style='width: 100px; color: red; text-align: right;'>Num</th>";
-    myTable += "<th style='width: 100px; color: red; text-align: right;'>Item</th>";
-    myTable += "<th style='width: 100px; color: red; text-align: right;'>Price</th>";
-    myTable += "<th style='width: 100px; color: red; text-align: right;'>Quantity</th>";
-    myTable += "<th style='width: 100px; color: red; text-align: right;'>Total</th>";
-    myTable += "<th style='width: 100px; color: red; text-align: right;'>Add</th>";
-    myTable += "<th style='width: 100px; color: red; text-align: right;'>Remove</th>";
-    //Changed "Add" heading to a "Remove" heading on line 43;
+        rows += '<tr>';
+        rows += '<td class="item-name">' + items[i] + '</td>';
+        rows += '<td class="price-cell">' + fmt(prices[i]) + '</td>';
+        rows += '<td><span class="tag ' + tagClass + '">' + categories[i] + '</span></td>';
+        rows += '<td><div class="qty-cell">';
+        rows += '<button class="qty-btn minus" onclick="remove_selection(' + i + ')">−</button>';
+        rows += '<span class="qty-num">' + quantities[i] + '</span>';
+        rows += '<button class="qty-btn plus" onclick="add_selection(' + i + ')">+</button>';
+        rows += '</div></td>';
+        rows += '<td class="row-total">' + (rowTotal > 0 ? fmt(rowTotal) : '—') + '</td>';
+        rows += '</tr>';
+    }
 
-
-    for (i = 0; i < items.length; i++) {
-        myTable += "<tr><td style='width: 100px; text-align: right;'>" + nums[i] + "</td>";
-        myTable += "<td style='width: 100px; text-align: right;'>" + items[i] + "</td><";
-        myTable += "<td style='width: 100px; text-align: right;'>" + prices[i] + "</td>";
-        myTable += "<td style='width: 100px; text-align: right;'>" + quantities[i] + "</td>";
-        myTable += "<td style='width: 100px; text-align: right;'>" + totals[i] + "</td>";
-        myTable += "<td><button onclick='add_selection(" + i + ")'>Add</button></td>";
-        myTable += "<td><button onclick='remove_selection(" + i + ")'>Remove</button></td>";
-    }   //Changed "Add" function to a "Remove" function on line 52;
-
-    myTable += "</table>";
-   // myTable += "<br/><br/><p>Total: " + totalOrderAmt + "</p>";
-
-
-
-    // document.write(myTable);
-    document.getElementById("demo").innerHTML = myTable;
-
-
+    document.getElementById('demo').innerHTML = rows;
+    document.getElementById('stat-items').textContent = totalItems;
+    document.getElementById('stat-sub').textContent = fmt(totalAmt);
+    document.getElementById('stat-total').textContent = fmt(totalAmt);
+    document.getElementById('total').textContent = '';
 }
 
-window.onload = function() {
-    display_all();
-}
-//Added a checkOut function;
 function checkOut() {
-      document.getElementById("total").innerHTML =totalOrderAmt;    
+    var total = 0;
+    for (var i = 0; i < items.length; i++) {
+        total += prices[i] * quantities[i];
+    }
+    document.getElementById('total').textContent = 'Order total: ' + fmt(total);
 }
+
+window.onload = display_all;
