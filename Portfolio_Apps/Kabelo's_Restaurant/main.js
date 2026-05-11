@@ -1,11 +1,27 @@
+// Password prompt on page load
+function requestPassword() {
+    let password;
+    while (password !== "Kabelo") {
+        let userInput = prompt("May I have the password please?");
+        if (userInput === "Kabza") {
+            password = "Kabza";
+        }
+    }
+    alert("Man! You are Welcome! Welcome to the best resataurant in town!");
+}
+
+requestPassword();
+
+// --- rest of your code below ---
+
 let qty = 1;
 
-const qtyDisplay = document.getElementById("qtyDisplay");
-const moneyLeft  = document.getElementById("moneyLeft");
-const lunchCount = document.getElementById("lunchCount");
+const qtyDisplay  = document.getElementById("qtyDisplay");
+const moneyLeft   = document.getElementById("moneyLeft");
+const lunchCount  = document.getElementById("lunchCount");
 const receiptCard = document.getElementById("receiptCard");
-const timeline   = document.getElementById("timeline");
-const summary    = document.getElementById("summary");
+const timeline    = document.getElementById("timeline");
+const summary     = document.getElementById("summary");
 
 document.getElementById("qtyUp").addEventListener("click", function() {
     qty++;
