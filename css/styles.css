@@ -11,18 +11,26 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
  
+.modal-body .project-group .btn-primary-kx,
+.modal-body .project-group .btn-ghost-kx {
+    padding: 0.35rem 0.875rem !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.06em !important;
+    white-space: nowrap;
+}
+
 .modal-actions {
-    margin-top: 1.5rem;
     display: flex;
-    flex-direction: column;    /* force vertical stacking */
+    flex-direction: column;
     gap: 0;
+    margin-top: 1.5rem;
 }
 
 .project-group {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem 0;
+    padding: 0.875rem 0;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -33,6 +41,7 @@
 .project-label {
     font-size: 0.85rem;
     font-weight: 500;
+    color: var(--text);
     min-width: 130px;
     flex-shrink: 0;
 }
@@ -41,15 +50,7 @@
     display: flex;
     gap: 8px;
     align-items: center;
-}
-
-/* Use !important to beat existing button specificity */
-.project-btns a {
-    padding: 0.3rem 0.75rem !important;
-    font-size: 0.72rem !important;
-    letter-spacing: 0.04em !important;
-    white-space: nowrap;
-    line-height: 1.4;
+    flex-shrink: 0;
 }
 
 :root {
