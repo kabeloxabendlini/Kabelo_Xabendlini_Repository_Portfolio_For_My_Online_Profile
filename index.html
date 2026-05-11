@@ -526,8 +526,47 @@
     /* stagger children */
     .stagger > * { transition-delay: calc(var(--i, 0) * 80ms); }
 
-    /* ── SCROLLED NAV ───────────────────────────────────── */
+   /* ── SCROLLED NAV ───────────────────────────────────── */
     #mainNav.scrolled { padding: .6rem 0; }
+
+    /* ── MODAL 7 PROJECT GROUPS ─────────────────────────── */
+    #modal7 .modal-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-top: 1.5rem;
+    }
+    #modal7 .project-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.875rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    #modal7 .project-group:last-child {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    #modal7 .project-label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text);
+        min-width: 130px;
+        flex-shrink: 0;
+    }
+    #modal7 .project-btns {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-shrink: 0;
+    }
+    #modal7 .project-btns .btn-primary-kx,
+    #modal7 .project-btns .btn-ghost-kx {
+        padding: 0.35rem 0.875rem !important;
+        font-size: 0.7rem !important;
+        letter-spacing: 0.06em !important;
+        white-space: nowrap;
+    }
+
   </style>
 </head>
 
