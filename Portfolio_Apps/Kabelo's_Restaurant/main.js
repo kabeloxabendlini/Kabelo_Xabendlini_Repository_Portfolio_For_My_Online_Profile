@@ -1,13 +1,13 @@
 // Password prompt on page load
 function requestPassword() {
     let password;
-    while (password !== "Kabelo") {
+    while (password !== "Kabza") {                        // ← match your chosen password
         let userInput = prompt("May I have the password please?");
-        if (userInput === "Kabza") {
+        if (userInput === "Kabza") {                      // ← same word here
             password = "Kabza";
         }
     }
-    alert("Man! You are Welcome! Welcome to the best resataurant in town!");
+    alert("Man! You are Welcome! Welcome to the best restaurant in town!");
 }
 
 requestPassword();
