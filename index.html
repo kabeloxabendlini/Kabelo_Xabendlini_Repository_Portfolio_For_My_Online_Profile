@@ -1312,15 +1312,6 @@
             child.style.setProperty('--i', i);
         });
     });
-
-    // Fix aria-hidden focus warning on all modals
-    document.querySelectorAll('.modal').forEach(function(modal) {
-        modal.addEventListener('hide.bs.modal', function() {
-            if (document.activeElement) {
-                document.activeElement.blur();
-            }
-        });
-    });
 </script>
 </body>
 </html>
