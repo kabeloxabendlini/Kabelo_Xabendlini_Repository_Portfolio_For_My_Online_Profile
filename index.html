@@ -1251,30 +1251,39 @@
   <!-- ── SCRIPTS ─────────────────────────────────────────── -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script>
+<script>
     // Nav scroll shrink
     window.addEventListener('scroll', () => {
-      document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
+        document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
     });
 
     // Intersection Observer for fade-up
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+            }
+        });
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
     // Stagger children inside .stagger
     document.querySelectorAll('.stagger').forEach(parent => {
-      [...parent.children].forEach((child, i) => {
-        child.style.setProperty('--i', i);
-      });
+        [...parent.children].forEach((child, i) => {
+            child.style.setProperty('--i', i);
+        });
     });
-  </script>
+
+    // Fix aria-hidden focus warning on all modals
+    document.querySelectorAll('.modal').forEach(function(modal) {
+        modal.addEventListener('hide.bs.modal', function() {
+            if (document.activeElement) {
+                document.activeElement.blur();
+            }
+        });
+    });
+</script>
 </body>
 </html>

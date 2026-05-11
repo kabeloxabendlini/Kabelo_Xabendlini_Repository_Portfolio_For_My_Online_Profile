@@ -51,4 +51,13 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
+    // Fix aria-hidden focus warning on all modals
+    document.querySelectorAll('.modal').forEach(function (modal) {
+        modal.addEventListener('hide.bs.modal', function () {
+            if (document.activeElement) {
+                document.activeElement.blur();
+            }
+        });
+    });
+
 });
